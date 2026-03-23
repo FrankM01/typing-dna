@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: typing-dna
+  datasource:
+    url: jdbc:postgresql://localhost:5432/typing-dna
+    username: gad-dev
+    password: 123456789
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
