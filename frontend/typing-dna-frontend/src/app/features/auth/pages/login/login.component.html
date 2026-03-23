@@ -1,0 +1,14 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <h2>TypingDNA Login</h2>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Usuario</mat-label>
+      <input matInput [(ngModel)]="username" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="full-width" (click)="login()">
+      Ingresar
+    </button>
+  </mat-card>
+</div>
