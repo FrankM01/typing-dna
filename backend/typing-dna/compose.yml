@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres-typing-dna
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: gad-dev
+      POSTGRES_PASSWORD: 123456789
+      POSTGRES_DB: typing-dna
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_typingdna:/var/lib/postgresql/data
+    networks:
+      - oss-network
+
+networks:
+  oss-network:
+    driver: bridge
+
+volumes:
+  postgres_data_typingdna:
