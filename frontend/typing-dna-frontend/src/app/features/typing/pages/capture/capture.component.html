@@ -1,0 +1,15 @@
+<div>
+  <h2>Typing Biometrics Test</h2>
+
+  <textarea
+    rows="5"
+    cols="40"
+    (keydown)="onKeyDown($event)"
+    (keyup)="onKeyUp($event)"
+    placeholder="Escribe aquí..."
+  ></textarea>
+
+  <br /><br />
+
+  <button (click)="showMetrics()">Ver métricas</button>
+</div>
