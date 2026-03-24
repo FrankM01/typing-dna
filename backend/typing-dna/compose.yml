@@ -10,6 +10,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
+      - ./infra/postgres/init-scripts:/docker-entrypoint-initdb.d
       - postgres_data_typingdna:/var/lib/postgresql/data
     networks:
       - oss-network
