@@ -4,12 +4,13 @@ import com.typingdna.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Builder
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "biometric_profiles")
 @AllArgsConstructor
 @NoArgsConstructor
