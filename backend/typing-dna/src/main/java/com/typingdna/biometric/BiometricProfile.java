@@ -3,7 +3,9 @@ package com.typingdna.biometric;
 import com.typingdna.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -25,9 +27,11 @@ public class BiometricProfile {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private Usuario usuario;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "dwell_vector", nullable = false, columnDefinition = "jsonb")
     private String dwellVector;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "flight_vector", nullable = false, columnDefinition = "jsonb")
     private String flightVector;
 
