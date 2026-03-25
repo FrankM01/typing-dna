@@ -9,8 +9,8 @@ import java.util.List;
 
 @Repository
 public interface AuthAttemptRepository extends JpaRepository<AuthAttempt, Long> {
-    List<AuthAttempt> findByUsuarioIdOrderByCreatedAtDesc(Long userId);
+    List<AuthAttempt> findByUsuarioIdOrderByAttemptedAtDesc(Long userId);
 
-    @Query("SELECT a FROM AuthAttempt a WHERE a.usuario.id = :userId ORDER BY a.createdAt DESC")
+    @Query("SELECT a FROM AuthAttempt a WHERE a.usuario.id = :userId ORDER BY a.attemptedAt DESC")
     List<AuthAttempt> findTopNByUsuarioIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
 }

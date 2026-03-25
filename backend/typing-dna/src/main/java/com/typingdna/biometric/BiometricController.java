@@ -20,17 +20,19 @@ public class BiometricController {
     @PostMapping("/enroll")
     public ResponseEntity<EnrollResponse> enroll(
             @AuthenticationPrincipal UserDetails userDetails,
-            @Valid @RequestBody BiometricRequest request,
-            HttpServletRequest httpRequest) {
-        String ip = getClientIp(httpRequest);
-        return ResponseEntity.ok(biometricService.enroll(userDetails.getUsername(), request, ip));
+            @Valid @RequestBody BiometricRequest request) {
+
+        return ResponseEntity.ok(biometricService.enroll(userDetails.getUsername(), request));
     }
 
     @PostMapping("/verify")
     public ResponseEntity<VerifyResponse> verify(
             @AuthenticationPrincipal UserDetails userDetails,
-            @Valid @RequestBody BiometricRequest request) {
-        return ResponseEntity.ok(biometricService.verify(userDetails.getUsername(), request));
+            @Valid @RequestBody BiometricRequest request,
+            HttpServletRequest httpRequest) {
+
+        String ip = getClientIp(httpRequest);
+        return ResponseEntity.ok(biometricService.verify(userDetails.getUsername(), request, ip));
     }
 
     @GetMapping("/status")

@@ -22,7 +22,7 @@ public class HistoryService {
 
         List<AuthAttempt> attempts = limit > 0
                 ? authAttemptRepository.findTopNByUsuarioIdOrderByCreatedAtDesc(usuario.getId(), PageRequest.of(0, limit))
-                : authAttemptRepository.findByUsuarioIdOrderByCreatedAtDesc(usuario.getId());
+                : authAttemptRepository.findByUsuarioIdOrderByAttemptedAtDesc(usuario.getId());
 
         return attempts.stream()
                 .map(this::toResponse)
@@ -34,7 +34,7 @@ public class HistoryService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         List<AuthAttempt> attempts = authAttemptRepository
-                .findByUsuarioIdOrderByCreatedAtDesc(usuario.getId());
+                .findByUsuarioIdOrderByAttemptedAtDesc(usuario.getId());
 
         if (attempts.isEmpty()) {
             return StatsResponse.builder()
