@@ -40,3 +40,5 @@ CREATE TABLE auth_attempts
             REFERENCES usuarios (id)
             ON DELETE CASCADE
 );
+
+ALTER TABLE biometric_profiles ADD COLUMN threshold DOUBLE PRECISION DEFAULT 0.75;

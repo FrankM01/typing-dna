@@ -2,6 +2,7 @@ package com.typingdna.history;
 
 import com.typingdna.dto.response.AuthAttemptResponse;
 import com.typingdna.dto.response.StatsResponse;
+import com.typingdna.exception.UserNotFoundException;
 import com.typingdna.usuario.Usuario;
 import com.typingdna.usuario.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class HistoryService {
 
     public List<AuthAttemptResponse> getAttempts(String username, int limit) {
         Usuario usuario = usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new UserNotFoundException(username));
 
         List<AuthAttempt> attempts = limit > 0
                 ? authAttemptRepository.findTopNByUsuarioIdOrderByCreatedAtDesc(usuario.getId(), PageRequest.of(0, limit))
@@ -31,7 +32,7 @@ public class HistoryService {
 
     public StatsResponse getStats(String username) {
         Usuario usuario = usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new UserNotFoundException(username));
 
         List<AuthAttempt> attempts = authAttemptRepository
                 .findByUsuarioIdOrderByAttemptedAtDesc(usuario.getId());

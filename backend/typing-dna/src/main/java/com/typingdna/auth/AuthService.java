@@ -3,11 +3,16 @@ package com.typingdna.auth;
 import com.typingdna.dto.request.LoginRequest;
 import com.typingdna.dto.request.RegisterRequest;
 import com.typingdna.dto.response.AuthResponse;
+import com.typingdna.exception.EmailAlreadyExistException;
+import com.typingdna.exception.InvalidCredentialsException;
+import com.typingdna.exception.UserNotFoundException;
+import com.typingdna.exception.UsernameAlreadyExistException;
 import com.typingdna.usuario.Usuario;
 import com.typingdna.usuario.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +26,10 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
         if (usuarioRepository.existsByUsername(request.username())) {
-            throw new RuntimeException("El username ya está en uso");
+            throw new UsernameAlreadyExistException(request.username());
         }
         if (usuarioRepository.existsByEmail(request.email())) {
-            throw new RuntimeException("El email ya está en uso");
+            throw new EmailAlreadyExistException(request.email());
         }
 
         Usuario usuario = Usuario.builder()
@@ -45,15 +50,19 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.username(),
-                        request.password()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.username(),
+                            request.password()
+                    )
+            );
+        } catch (Exception e) {
+            throw new InvalidCredentialsException();
+        }
 
         Usuario usuario = usuarioRepository.findByUsername(request.username())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new UserNotFoundException(request.username()));
 
         String token = jwtService.generateToken(usuario.getUsername());
         return AuthResponse.builder()

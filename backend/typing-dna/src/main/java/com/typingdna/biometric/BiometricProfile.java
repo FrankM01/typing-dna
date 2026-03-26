@@ -39,6 +39,10 @@ public class BiometricProfile {
     @Column(name = "samples_count")
     private Integer samplesCount = 0;
 
+    @Column(name = "threshold")
+    @Builder.Default
+    private Double threshold = 0.75;
+
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;

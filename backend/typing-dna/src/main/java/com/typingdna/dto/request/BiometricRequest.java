@@ -5,10 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record BiometricRequest(
-        @NotNull
+        @NotNull(message = "dwell vector es requerido")
         List<Double> dwellVector,
 
-        @NotNull
+        @NotNull(message = "flight vector es requerido")
         List<Double> flightVector
 ) {
 }
