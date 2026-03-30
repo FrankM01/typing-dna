@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guards';
 
 export const routes: Routes = [
   {
@@ -15,5 +16,6 @@ export const routes: Routes = [
     path: 'typing',
     loadChildren: () =>
       import('./features/typing/typing.routes').then((m) => m.TYPING_ROUTES),
+    canActivate: [authGuard]
   },
 ];
