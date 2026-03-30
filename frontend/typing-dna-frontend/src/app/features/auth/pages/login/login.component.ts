@@ -3,6 +3,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,8 +15,39 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent {
   username = '';
+  password = '';
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
+
+  // login() {
+  //   this.authService
+  //     .login({
+  //       username: this.username,
+  //       password: this.password,
+  //     })
+  //     .subscribe({
+  //       next: () => this.router.navigate(['/typing']),
+  //       error: () => alert('Login failed'),
+  //     });
+  // }
 
   login() {
-    console.log('Login:', this.username);
+    this.authService
+      .login({
+        username: this.username,
+        password: this.password,
+      })
+      .subscribe({
+        next: (res) => {
+          this.authService.saveToken(res.token);
+          this.router.navigate(['/typing']);
+        },
+        error: () => {
+          alert('Credenciales incorrectas');
+        },
+      });
   }
 }
